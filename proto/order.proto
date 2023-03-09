@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package orders;
+
+service OrderService {
+    rpc CreateOrder (CreateOrderRequest) returns (Order) {}
+    rpc FindAll (Pagination) returns (Orders) {}
+    rpc FindOne (ById) returns (Order) {}
+    rpc UpdateAddress (UpdateAddressRequest) returns (Order) {}
+    rpc DeleteOrder (ById) returns (StandardReturn) {}
+}
+
+
+message Pagination {
+    int32 skip = 1;
+    int32 limit = 2;
+}
+
+message ById {
+  string id = 1;
+}
+
+message StandardReturn {
+    string message = 1;
+  }
+
+message UpdateAddressRequest {
+    string id = 1;
+    string address = 2;
+}
+
+enum Status {
+    Pending = 0;
+    Processing = 1;
+    Completed = 2;
+}
+
+message CreateOrderRequest {
+    string name = 2;
+    string address = 3;
+    Status status = 4;
+    bool dispatched = 5;
+}
+
+message Order {
+  string id = 1;
+  string name = 2;
+  string address = 3;
+  Status status = 4;
+  bool dispatched = 5;
+  string createdAt = 6;
+  string updatedAt = 7;
+}
+
+message Orders {
+    repeated Order orders = 1;
+    int32 limit = 2;
+    int32 skip = 3;
+    int32 totla = 4;
+}
